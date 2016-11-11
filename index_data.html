@@ -1,0 +1,90 @@
+{% extends 'new_base.html' %}
+
+{% block grid %}
+<div class="ui equal width grid" style="margin:5px 0 5px 0;width:70%" >
+        <div class="row">
+          <div class="column">
+            <div class="ui yellow segment">
+              <div class="ui statistic">
+                <div class="value">
+                  {{ counts }}
+                </div>
+                <div class="label">
+                  Rooms
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui blue segment">
+              <div class="ui statistic">
+                <div class="value">
+                  {{ count_areas }}
+                </div>
+                <div class="label">
+                  Areas
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <div class="ui container segment">
+              <div class="ui divided items">
+              {% for item in ItemInfo %}
+                      <div class="item">
+                        <div class="content">
+                            <a class="header">
+                                {{ item.Title }}
+                            </a>
+                        <div class="description">
+                            <i class="marker icon"></i>
+                            {{ item.Place }}
+                        </div>
+                     <div class="description">
+                        <div class="ui two column midlle aligned relaxed fitted stackable grid" style="width: 50%" >
+                            <div class="row">
+                                <div class="column">
+                                    <h5 class="ui green header">
+                                        Cost_per_guest: ${{ item.Cost_per_guest }}</h5>
+                                </div>
+                                <div class="ui vertical divider"></div>
+                                <div class="column">
+                                    <h5 class="ui teal header">Guests: {{ item.Guests_num }}
+                                    </h5>
+                                </div>
+                            </div>
+
+                         </div>
+                        </div>
+                      </div>
+                  </div>
+
+          {% endfor %}
+              </div>
+
+            <div class="ui small pagination menu">
+                {% if ItemInfo.has_previous %}
+                <a class="icon item" href="?page={{ ItemInfo.previous_page_number }}">
+                    <i class="left arrow icon"></i>
+                </a>
+                {% endif %}
+
+                <div class="disabled item"> {{ ItemInfo.number }} of {{ ItemInfo.paginator.num_pages }} </div>
+
+                {% if ItemInfo.has_next %}
+                <a class="icon item" href="?page={{ ItemInfo.next_page_number }}">
+                    <i class="right arrow icon"></i>
+                </a>
+                {% endif %}
+            </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+

@@ -1,0 +1,149 @@
+{% extends 'new_base.html' %}
+
+{% block grid %}
+<div class="ui equal width grid" style="margin:5px 0 5px 0;width:70%">
+{#  ------------------------------------------------ CHART BLOCK ---------------------------------------------------  #}
+    <div class="row">
+      <div class="column">
+        <div class="ui container segment">
+          <div class="ui container" id="chart2"></div>
+        </div>
+      </div>
+    </div>
+{#  ------------------------------------------------ CHART BLOCK ---------------------------------------------------  #}
+    <div class="row">
+      <div class="column">
+        <div class="ui container segment">
+          <div class="ui container" id="pie"></div>
+        </div>
+      </div>
+
+    </div>
+{#  ------------------------------------------------ CHART BLOCK ---------------------------------------------------  #}
+    <div class="row">
+      <div class="column">
+        <div class="ui container segment">
+          <div class="ui compact menu">
+            <div class="ui simple dropdown item">
+              Price
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item" id="T">Together pay</div>
+                <div class="item" id="S">Separately pay</div>
+              </div>
+            </div>
+          </div>
+          <div class="ui container" id="chart1"></div>
+        </div>
+      </div>
+    </div>
+{#  ------------------------------------------------ CHART BLOCK ---------------------------------------------------  #}
+</div>
+{% endblock %}
+{#  ------------------------------------------------ SCRIPT BLOCK --------------------------------------------------  #}
+{% block chartjs %}
+    <script>
+        $('#T').click(function () {
+          $('#chart1').highcharts({
+            credits:{
+                enabled:false
+            },
+            title: {
+                text: 'Total price'
+            },
+            yAxis: {
+                title: {
+                    text: 'Top3   ($)'
+                }
+            },
+            series: {{ chart_Total|safe }}
+        });
+    });
+    </script>
+{#  ------------------------------------------------ SCRIPT BLOCK --------------------------------------------------  #}
+    <script>
+        $('#S').click(function () {
+          $('#chart1').highcharts({
+            credits:{
+                enabled:false
+            },
+            title: {
+                text: 'Separately price'
+            },
+            yAxis: {
+                title: {
+                    text:  'Top3   ($)'
+                }
+            },
+            series: {{ chart_Per|safe }}
+        });
+    });
+    </script>
+
+{#  ------------------------------------------------ SCRIPT BLOCK --------------------------------------------------  #}
+    <script>
+    $(function () {
+        // Create the chart
+        $('#chart2').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'The number of posts in every area'
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Quantity'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+
+            series: [{
+                name: 'posts',
+                colorByPoint: true,
+                data: {{ series_post|safe }}
+            }]
+        });
+    });
+    </script>
+
+{#  ------------------------------------------------ SCRIPT BLOCK --------------------------------------------------  #}
+    <script>
+    $(function () {
+        $('#pie').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'The rate of different area'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Percent',
+                colorByPoint: true,
+                data: {{ pie_data|safe }}
+            }]
+        });
+    });
+    </script>
+{% endblock %}
